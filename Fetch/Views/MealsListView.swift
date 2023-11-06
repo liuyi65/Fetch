@@ -5,29 +5,18 @@
 //  Created by Liu Yi on 11/6/23.
 //
 import SwiftUI
-@main
-struct RecipeApp: App {
-    var body: some Scene {
-        WindowGroup {
-            MealsListView()
-        }
-    }
-}
+
 struct MealsListView: View {
     @State private var meals: [Meal] = []
     @State private var isLoading = false
     @State private var alertItem: AlertItem?
     
-    
-    
-    
     var body: some View {
         VStack{
             NavigationView {
-                
                 List(meals.sorted { $0.strMeal ?? "" < $1.strMeal ?? "" }, id: \.id) { meal in
                     NavigationLink(destination: MealDetailView(mealID: meal.idMeal ?? "")) {
-                        Text(meal.strMeal ?? "Unknown Dessert")
+                        Text(meal.strMeal ?? "Not Found Dessert")
                     }
                 }
                 .navigationTitle("Desserts")
@@ -46,7 +35,7 @@ struct MealsListView: View {
     
     private func loadMeals() {
         isLoading = true
-        NetworkingManager.shared.fetchDesserts { result in
+        RecipeApiManager.shared.fetchDesserts { result in
             DispatchQueue.main.async {
                 isLoading = false
                 switch result {

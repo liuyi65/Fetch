@@ -50,18 +50,14 @@ struct MealDetailView: View {
         }
     }
     
-    
-    
     private func loadMealDetail() {
         isLoading = true
-        NetworkingManager.shared.fetchMealDetails(mealID: mealID) { result in
+        RecipeApiManager.shared.fetchMealDetails(mealID: mealID) { result in
             DispatchQueue.main.async {
                 isLoading = false
                 switch result {
                 case .success(let detail):
-                    
                     self.mealDetail = detail
-                    
                 case .failure(let error):
                     alertItem = AlertItem(title: "Error", message: error.localizedDescription)
                 }
